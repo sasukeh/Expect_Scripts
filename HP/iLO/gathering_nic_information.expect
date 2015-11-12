@@ -1,0 +1,22 @@
+#!/usr/bin/expect
+
+set timeout 20
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set password [lindex $argv 2]
+
+spawn ssh "$user\@$ip"
+
+expect "(yes/no)" {send "yes\r"}
+
+expect "password:" 
+send "$password\r";
+
+expect "</>hpiLO->" 
+send "show system1/network1/Integrated_NICs\r";
+
+expect "</>hpiLO->" 
+send "quit\r"
+
+interact
+
